@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="htmlRoot">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>دليل تقنيات التصوير الشعاعي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0d1417;
+    --panel: #141d22;
+    --panel-2: #1b262c;
+    --line: #263339;
+    --cyan: #5fd8e0;
+    --cyan-dim: #2c5a5e;
+    --bone: #eef2ee;
+    --bone-dim: #a9b6b8;
+    --amber: #e3a857;
+    --radius: 3px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(ellipse at 15% 0%, rgba(95,216,224,0.06), transparent 55%),
+      var(--bg);
+    color:var(--bone);
+    font-family:'Tajawal', sans-serif;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+  html[lang="en"] body, html[lang="fr"] body{ font-family:'IBM Plex Sans', sans-serif; }
+  h1,h2,h3, .num-face{ font-family:'IBM Plex Sans Arabic', 'Tajawal', sans-serif; }
+  html[lang="en"] h1, html[lang="en"] h2, html[lang="en"] h3,
+  html[lang="fr"] h1, html[lang="fr"] h2, html[lang="fr"] h3{ font-family:'IBM Plex Sans', sans-serif; }
+
+  /* ===== Top bar ===== */
+  header{
+    border-bottom:1px solid var(--line);
+    padding:22px 28px 20px;
+    position:sticky; top:0; z-index:20;
+    background:rgba(13,20,23,0.92);
+    backdrop-filter:blur(6px);
+  }
+  .header-row{
+    display:flex; align-items:flex-end; justify-content:space-between;
+    max-width:1180px; margin:0 auto; gap:20px; flex-wrap:wrap;
+  }
+  .brand{display:flex; align-items:center; gap:14px;}
+  .brand-mark{
+    width:42px;height:42px;flex:none;
+    border:1.5px solid var(--cyan-dim);
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--cyan);
+    font-family:'IBM Plex Sans Arabic';
+    font-weight:700; font-size:17px;
+    box-shadow: 0 0 14px rgba(95,216,224,0.18) inset;
+  }
+  h1{margin:0; font-size:21px; font-weight:600; letter-spacing:0.2px;}
+  .subtitle{margin:3px 0 0; color:var(--bone-dim); font-size:13.5px;}
+
+  .controls-right{display:flex; align-items:center; gap:14px; flex-wrap:wrap;}
+
+  .lang-switch{
+    display:flex; border:1px solid var(--line); border-radius:var(--radius); overflow:hidden;
+  }
+  .lang-switch button{
+    background:var(--panel); border:none; color:var(--bone-dim); padding:9px 14px;
+    font-family:'IBM Plex Sans', sans-serif; font-size:12.5px; letter-spacing:.03em;
+    cursor:pointer; border-inline-start:1px solid var(--line);
+  }
+  .lang-switch button:first-child{border-inline-start:none;}
+  .lang-switch button.active{background:var(--panel-2); color:var(--cyan);}
+
+  .search-wrap{position:relative; min-width:220px; flex:1; max-width:320px;}
+  #search{
+    width:100%; background:var(--panel); border:1px solid var(--line);
+    color:var(--bone); padding:11px 14px; border-radius:var(--radius);
+    font-family:inherit; font-size:14px; outline:none;
+    transition:border-color .15s ease;
+  }
+  #search:focus{border-color:var(--cyan-dim);}
+  #search::placeholder{color:#5a6c70;}
+
+  /* ===== Layout ===== */
+  main{max-width:1180px; margin:0 auto; padding:26px 28px 70px; display:flex; gap:26px; align-items:flex-start;}
+
+  nav.regions{
+    width:230px; flex:none; position:sticky; top:104px;
+    display:flex; flex-direction:column; gap:2px;
+  }
+  nav.regions .nav-label{
+    color:#5a6c70; font-size:11.5px; letter-spacing:.03em; margin:0 4px 8px;
+  }
+  .region-btn{
+    text-align:start; background:none; border:none; color:var(--bone-dim);
+    padding:9px 12px; border-radius:var(--radius); cursor:pointer;
+    font-family:inherit; font-size:14.5px; display:flex; justify-content:space-between;
+    align-items:center; gap:8px; border-inline-start:2px solid transparent;
+  }
+  .region-btn:hover{background:var(--panel); color:var(--bone);}
+  .region-btn.active{
+    background:var(--panel-2); color:var(--cyan); border-inline-start-color:var(--cyan);
+    font-weight:600;
+  }
+  .region-btn .count{font-size:11.5px; color:#5a6c70; font-family:'IBM Plex Sans Arabic';}
+  .region-btn.active .count{color:var(--cyan-dim);}
+
+  section.content{flex:1; min-width:0;}
+
+  .region-heading{margin:2px 0 4px; font-size:19px; font-weight:600;}
+  .region-note{color:var(--bone-dim); font-size:13px; margin:0 0 20px;}
+
+  /* ===== Table ===== */
+  .table-shell{
+    border:1px solid var(--line); border-radius:6px;
+    overflow-x:auto; overflow-y:hidden;
+    background:var(--panel);
+    -webkit-overflow-scrolling:touch;
+  }
+  table{width:100%; min-width:520px; border-collapse:collapse; font-size:14px;}
+  thead th{
+    text-align:start; font-weight:500; color:var(--bone-dim);
+    font-size:12px; letter-spacing:.02em;
+    padding:12px 16px; border-bottom:1px solid var(--line);
+    background:var(--panel-2);
+  }
+  thead th.numeric, td.numeric{text-align:center;}
+  tbody td{padding:13px 16px; border-bottom:1px solid var(--line); vertical-align:middle;}
+  tbody tr:last-child td{border-bottom:none;}
+  tbody tr:hover{background:rgba(95,216,224,0.035);}
+  .exam-name{font-weight:500; color:var(--bone);}
+  .exam-view{display:block; color:var(--bone-dim); font-size:12px; margin-top:2px;}
+  .val{
+    font-family:'IBM Plex Sans Arabic'; font-weight:600; font-size:14.5px; color:var(--bone);
+  }
+  html[lang="en"] .val, html[lang="fr"] .val{ font-family:'IBM Plex Sans'; }
+  .val.kv{color:var(--cyan);}
+  .val.ms{color:var(--amber);}
+  .sid{color:var(--bone-dim); font-size:12.5px;}
+  .grid-tag{
+    display:inline-block; font-size:10.5px; padding:1px 6px; border:1px solid var(--cyan-dim);
+    color:var(--cyan-dim); border-radius:20px; margin-inline-end:6px;
+  }
+
+  .empty-state{padding:60px 20px; text-align:center; color:var(--bone-dim);}
+
+  footer{
+    max-width:1180px; margin:0 auto; padding:0 28px 50px; color:#5a6c70; font-size:12.5px; line-height:1.9;
+  }
+  footer .disclaimer{
+    border-top:1px solid var(--line); padding-top:18px; margin-top:8px;
+  }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 980px){
+    main{gap:20px; padding:24px 22px 60px;}
+    nav.regions{width:190px;}
+  }
+
+  @media (max-width: 820px){
+    .header-row{align-items:stretch;}
+    main{flex-direction:column; padding:20px 16px 50px;}
+    nav.regions{
+      width:100%; position:static; flex-direction:row; overflow-x:auto;
+      gap:6px; padding-bottom:10px; -webkit-overflow-scrolling:touch;
+      scrollbar-width:thin;
+    }
+    nav.regions .nav-label{display:none;}
+    .region-btn{
+      white-space:nowrap; border-inline-start:none; border-bottom:2px solid transparent;
+      flex:none;
+    }
+    .region-btn.active{border-inline-start-color:transparent; border-bottom-color:var(--cyan);}
+    header{padding:16px 16px 14px; position:static;}
+    .controls-right{width:100%;}
+    .search-wrap{max-width:none;}
+  }
+
+  @media (max-width: 600px){
+    .brand{width:100%;}
+    h1{font-size:18px;}
+    .subtitle{font-size:12.5px;}
+    .controls-right{flex-direction:column; align-items:stretch; gap:10px;}
+    .lang-switch{align-self:flex-start;}
+    .lang-switch button{flex:1; padding:9px 0; text-align:center;}
+    section.content{min-width:0;}
+    .region-heading{font-size:17px;}
+
+    /* Collapse the table into stacked cards */
+    .table-shell{border:none; background:none; overflow:visible;}
+    table{min-width:0; border-spacing:0 10px; border-collapse:separate;}
+    thead{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0);}
+    tbody tr{
+      display:block; background:var(--panel); border:1px solid var(--line);
+      border-radius:8px; margin-bottom:10px; padding:4px 0;
+    }
+    tbody tr:hover{background:var(--panel);}
+    tbody td{
+      display:flex; justify-content:space-between; align-items:center;
+      border-bottom:1px dashed var(--line); padding:9px 14px;
+    }
+    tbody tr td:last-child{border-bottom:none;}
+    tbody td:first-child{display:block;}
+    tbody td:first-child .exam-name{display:block; margin-bottom:2px;}
+    td.numeric, td.sid{text-align:end;}
+    td[data-label]::before{
+      content:attr(data-label); color:var(--bone-dim); font-size:12px; font-weight:400;
+    }
+  }
+
+  @media (max-width: 380px){
+    header{padding:14px 12px 12px;}
+    main{padding:16px 12px 40px;}
+    .brand-mark{width:36px; height:36px; font-size:14px;}
+    h1{font-size:16.5px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-row">
+    <div class="brand">
+      <div class="brand-mark">Rx</div>
+      <div>
+        <h1 id="pageTitle">دليل تقنيات التصوير الشعاعي</h1>
+        <p class="subtitle" id="pageSubtitle">قيم استرشادية لـ kVp — mA — الزمن (msec) لمريض بالغ متوسط البنية</p>
+      </div>
+    </div>
+    <div class="controls-right">
+      <div class="lang-switch">
+        <button data-lang="ar" class="active">AR</button>
+        <button data-lang="en">EN</button>
+        <button data-lang="fr">FR</button>
+      </div>
+      <div class="search-wrap">
+        <input id="search" type="text" placeholder="ابحث عن فحص…">
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <nav class="regions" id="regionNav">
+    <p class="nav-label" id="navLabel">مناطق الجسم</p>
+  </nav>
+
+  <section class="content">
+    <h2 class="region-heading" id="regionTitle">—</h2>
+    <p class="region-note" id="regionNote"></p>
+    <div class="table-shell">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:36%" id="thExam">الفحص</th>
+            <th class="numeric">kVp</th>
+            <th class="numeric">mA</th>
+            <th class="numeric">msec</th>
+            <th class="sid-h" id="thSid">مسافة التصوير (SID)</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+      <div class="empty-state" id="emptyState" style="display:none"></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="disclaimer" id="disclaimer"></div>
+</footer>
+
+<script>
+/* ---------------- UI STRINGS ---------------- */
+const UI = {
+  ar: {
+    dir:"rtl",
+    pageTitle:"دليل تقنيات التصوير الشعاعي",
+    pageSubtitle:"قيم استرشادية لـ kVp — mA — الزمن (msec) لمريض بالغ متوسط البنية",
+    searchPlaceholder:"ابحث عن فحص…",
+    navLabel:"مناطق الجسم",
+    thExam:"الفحص",
+    thSid:"مسافة التصوير (SID)",
+    searchResults:"نتائج البحث",
+    searchFor:(t)=>`عن "${t}"`,
+    empty:"لا توجد نتائج مطابقة لبحثك",
+    grid:"شبكة",
+    disclaimer:"⚠️ هذه القيم مرجعية عامة (starting technique) مستخلصة من جداول التقنية الشعاعية المعتمدة تعليميًا لمريض بالغ متوسط الوزن (~70 كغم)، وهي نقطة انطلاق فقط. أجهزة DRGEM ومعظم أجهزة الأشعة الرقمية الحديثة تحتوي على جدول تقنية (APR / anatomical programming) مخزّن ومُعايَر من الشركة المصنّعة حسب كل جهاز على حدة، وقد يستخدم بعضها التعريض الآلي (AEC). يجب على الفني أو أخصائي الأشعة دائمًا مطابقة هذه القيم مع جدول التقنية الخاص بالجهاز الفعلي وتعديلها حسب حجم المريض، ALARA، ونوعية الكاشف (Detector) المستخدم."
+  },
+  en: {
+    dir:"ltr",
+    pageTitle:"X-Ray Technique Reference Guide",
+    pageSubtitle:"Reference kVp — mA — time (msec) values for an average-build adult patient",
+    searchPlaceholder:"Search an exam…",
+    navLabel:"Body regions",
+    thExam:"Exam",
+    thSid:"Source-to-image distance (SID)",
+    searchResults:"Search results",
+    searchFor:(t)=>`for "${t}"`,
+    empty:"No exams match your search",
+    grid:"Grid",
+    disclaimer:"⚠️ These values are general starting-technique references drawn from standard teaching radiographic technique charts for an average adult patient (~70 kg / 154 lb). They are a starting point only. DRGEM units, like most modern digital radiography systems, ship with a factory-calibrated anatomical programming (APR) technique chart specific to each unit, and some exams may rely on automatic exposure control (AEC). Always cross-check these values against your unit's actual technique chart and adjust for patient size, ALARA, and detector type."
+  },
+  fr: {
+    dir:"ltr",
+    pageTitle:"Guide de référence des techniques radiographiques",
+    pageSubtitle:"Valeurs indicatives de kVp — mA — temps (msec) pour un patient adulte de corpulence moyenne",
+    searchPlaceholder:"Rechercher un examen…",
+    navLabel:"Régions du corps",
+    thExam:"Examen",
+    thSid:"Distance foyer-film (DFF / SID)",
+    searchResults:"Résultats de recherche",
+    searchFor:(t)=>`pour « ${t} »`,
+    empty:"Aucun examen ne correspond à votre recherche",
+    grid:"Grille",
+    disclaimer:"⚠️ Ces valeurs sont des repères techniques généraux (technique de départ) issus de tables pédagogiques standard de radiographie pour un patient adulte moyen (~70 kg). Ce ne sont que des points de départ. Les appareils DRGEM, comme la plupart des systèmes de radiographie numérique modernes, disposent d'une table de programmation anatomique (APR) calibrée en usine, propre à chaque appareil, et certains examens peuvent utiliser le contrôle automatique d'exposition (CAE/AEC). Vérifiez toujours ces valeurs avec la table de technique réelle de votre appareil et ajustez-les selon la taille du patient, le principe ALARA et le type de détecteur."
+  }
+};
+
+/* ---------------- DATA ---------------- */
+const REGIONS = ["skull","chest","spine","abdomen","upper","lower"];
+
+const REGION_LABEL = {
+  skull:  {ar:"الجمجمة والرأس", en:"Skull & Head", fr:"Crâne et tête"},
+  chest:  {ar:"الصدر", en:"Chest", fr:"Thorax"},
+  spine:  {ar:"العمود الفقري", en:"Spine", fr:"Colonne vertébrale"},
+  abdomen:{ar:"البطن والحوض", en:"Abdomen & Pelvis", fr:"Abdomen et bassin"},
+  upper:  {ar:"الطرف العلوي", en:"Upper Extremity", fr:"Membre supérieur"},
+  lower:  {ar:"الطرف السفلي", en:"Lower Extremity", fr:"Membre inférieur"}
+};
+
+const REGION_NOTE = {
+  skull:   {ar:"مسافة تصوير عامة 100 سم، مع استخدام الشبكة (Grid) لمعظم الإسقاطات.",
+            en:"General SID 100 cm, grid used for most projections.",
+            fr:"DFF générale de 100 cm, grille utilisée pour la plupart des incidences."},
+  chest:   {ar:"تقنية الجهد العالي (High kVp) لتقليل الجرعة وتحسين تباين الرئة، SID 180 سم.",
+            en:"High-kVp technique to reduce dose and improve lung contrast, SID 180 cm.",
+            fr:"Technique à haute tension (kVp élevé) pour réduire la dose et améliorer le contraste pulmonaire, DFF 180 cm."},
+  spine:   {ar:"مسافة تصوير عامة 100 سم مع استخدام الشبكة لجميع الإسقاطات تقريبًا.",
+            en:"General SID 100 cm, grid used for nearly all projections.",
+            fr:"DFF générale de 100 cm, grille utilisée pour presque toutes les incidences."},
+  abdomen: {ar:"مسافة تصوير عامة 100 سم مع الشبكة، والتعرّض يُفضّل في مرحلة الزفير.",
+            en:"General SID 100 cm with grid; exposure preferably on expiration.",
+            fr:"DFF générale de 100 cm avec grille ; exposition de préférence en expiration."},
+  upper:   {ar:"بدون شبكة غالبًا لسمك أقل من 10 سم، SID 100 سم.",
+            en:"Non-grid technique for parts under 10 cm thickness, SID 100 cm.",
+            fr:"Technique sans grille pour une épaisseur inférieure à 10 cm, DFF 100 cm."},
+  lower:   {ar:"بدون شبكة للأجزاء الطرفية، وشبكة للفخذ ومفصل الورك، SID 100 سم.",
+            en:"Non-grid for distal parts, grid used for femur/hip, SID 100 cm.",
+            fr:"Sans grille pour les parties distales, grille pour fémur/hanche, DFF 100 cm."}
+};
+
+const EXAMS = {
+  skull: [
+    {name:{ar:"الجمجمة",en:"Skull",fr:"Crâne"}, view:{ar:"أمامي خلفي / خلفي أمامي (PA/AP)",en:"AP / PA",fr:"AP / PA"}, kv:75, ma:200, ms:250, sid:{ar:"100 سم",en:"100 cm",fr:"100 cm"}, grid:true},
+    {name:{ar:"الجمجمة",en:"Skull",fr:"Crâne"}, view:{ar:"جانبي",en:"Lateral",fr:"Profil"}, kv:70, ma:200, ms:200, sid:{ar:"100 سم",en:"100 cm",fr:"100 cm"}, grid:true},
+    {name:{ar:"عظام الوجه",en:"Facial bones",fr:"Os de la face"}, view:{ar:"Waters / أمامي خلفي",en:"Waters / PA",fr:"Waters / PA"}, kv:70, ma:200, ms:160, sid:{ar:"100 سم",en:"100 cm",fr:"100 cm"}, grid:true},
+    {name:{ar:"الجيوب الأنفية",en:"Paranasal sinuses",fr:"Sinus"}, view:{ar:"Waters",en:"Waters",fr:"Waters"}, kv:75, ma:200, ms:200, sid:{ar:"100 سم",en:"100 cm",fr:"100 cm"}, grid:true},
+    {name:{ar:"عظام الأنف",en:"Nasal bones",fr:"Os propres du nez"}, view:{ar:"جانبي",en:"Lateral",fr:"Profil"}, kv:55, ma:100, ms:80, sid:{ar:"75 سم",en:"75 cm",fr:"75 cm"}, grid:false},
+    {name:{ar:"الفك السفلي",en:"Mandible",fr:"Mandibule"}, view:{ar:"مائل / أمامي خلفي",en:"Oblique / PA",fr:"Oblique / PA"}, kv:70, ma:200, ms:100, sid:{ar:"100 سم",en:"100 cm",fr:"100 cm"}, grid:true},
+    {name:{ar:"مفصل الفك الصدغي",en:"TMJ",fr:"ATM"}, view:{ar:"جانبي مائل",en:"Lateral oblique",fr:"Profil oblique"}, kv:75, ma:200, ms:125, sid:{ar:"100 سم",en:"100 cm",fr:"100 cm"}, grid:true},
+    {name:{ar:"الخشاء",en:"Mastoids",fr:"Mastoïdes"}, view:{ar:"Law / Stenvers",en:"Law / Stenvers",fr:"Law / Stenvers"}, kv:75, ma:200, ms:160, sid:{ar:"100 سم",en:"100 cm",fr:"100 cm"}, grid:true}
+  ],
+  chest: [
+    {name:{ar:"الصدر",en:"Chest",fr:"Thorax"}, view:{ar:"أمامي خلفي واقف (PA)",en:"Erect PA",fr:"PA debout"}, kv:120, ma:200, ms:20, sid:{ar:"180 سم",en:"180 cm",fr:"180 cm"}, grid:true},
+    {name:{ar:"الصدر",en:"Chest",fr:"Thorax"}, view:{ar:"جانبي",en:"Lateral",fr:"Profil"}, kv:125, ma:200, ms:40, sid:{ar:"180 سم",en:"180 cm",fr:"180 cm"}, grid:true},
+    {name:{ar:"الصدر",en:"Chest",fr:"Thorax"}, view:{ar:"محمول / سرير (AP)",en:"Bedside/portable AP",fr:"AP portable au lit"}, kv:85, ma:100, ms:64, sid:{ar:"100–120 سم",en:"100–120 cm",fr:"100–120 cm"}, grid:false},
+    {name:{ar:"الأضلاع",en:"Ribs",fr:"Côtes"}, view:{ar:"أمامي خلفي (فوق الحجاب)",en:"AP (above diaphragm)",fr:"AP (au-dessus du diaphragme)"}, kv:75, ma:200, ms:100, sid:{ar:"100 سم",en:"100 cm",fr:"100 cm"}, grid:true},
+    {name:{ar:"الأضلاع",en:"Ribs",fr:"Côtes"}, view:{ar:"أمامي خلفي (تحت الحجاب)",en:"AP (below diaphragm)",fr:"AP (sous le diaphragme)"}, kv:80, ma:200, ms:125, sid:{ar:"100 سم",en:"100 cm",fr:"100 cm"}, grid:true},
+    {name:{ar:"عظمة القص",en:"Sternum",fr:"Sternum"}, view:{ar:"مائل RAO",en:"RAO oblique",fr:"Oblique OAD"}, kv:75, ma:100, ms:300, sid:{ar:"100 سم",en:"100 cm",fr:"100 cm"}, grid:true},
+    {name:{ar:"الترقوة",en:"Clavicle",fr:"Clavicule"}, view:{ar:"أمامي خلفي",en:"AP",fr:"AP"}, kv:70, ma:200, ms:40, sid:{ar:"100 سم",en:"100 cm",fr:"100 cm"}, grid:false}
+  ],
+  spine: [
+    {name:{ar:"الفقرات العنقية",en:"Cervical spine",fr:"Rachis cervical"}, view:{ar:"أمامي خلفي (AP)",en:"AP",fr:"AP"}, kv:75, ma:200, ms:80, sid:{ar:"100 سم",en:"100 cm",fr:"100 cm"}, grid:true},
+    {name:{ar:"الفقرات العنقية",en:"Cervical spine",fr:"Rachis cervical"}, view:{ar:"جانبي",en:"Lateral",fr:"Profil"}, kv:80, ma:200, ms:64, sid:{ar:"150 سم",en:"150 cm",fr:"150 cm"}, grid:true},
+    {name:{ar:"الفقرات العنقية",en:"Cervical spine",fr:"Rachis cervical"}, view:{ar:"العنطوس (فم مفتوح)",en:"Open-mouth odontoid",fr:"Bouche ouverte (odontoïde)"}, kv:75, ma:200, ms:100, sid:{ar:"100 سم",en:"100 cm",fr:"100 cm"}, grid:true},
+    {name:{ar:"الفقرات الصدرية",en:"Thoracic spine",fr:"Rachis thoracique"}, view:{ar:"أمامي خلفي (AP)",en:"AP",fr:"AP"}, kv:80, ma:200, ms:200, sid:{ar:"100 سم",en:"100 cm",fr:"100 cm"}, grid:true},
+    {name:{ar:"الفقرات الصدرية",en:"Thoracic spine",fr:"Rachis thoracique"}, view:{ar:"جانبي",en:"Lateral",fr:"Profil"}, kv:90, ma:200, ms:320, sid:{ar:"100 سم",en:"100 cm",fr:"100 cm"}, grid:true},
+    {name:{ar:"الفقرات القطنية",en:"Lumbar spine",fr:"Rachis lombaire"}, view:{ar:"أمامي خلفي (AP)",en:"AP",fr:"AP"}, kv:80, ma:200, ms:250, sid:{ar:"100 سم",en:"100 cm",fr:"100 cm"}, grid:true},
+    {name:{ar:"الفقرات القطنية",en:"Lumbar spine",fr:"Rachis lombaire"}, view:{ar:"جانبي",en:"Lateral",fr:"Profil"}, kv:90, ma:200, ms:350, sid:{ar:"100 سم",en:"100 cm",fr:"100 cm"}, grid:true},
+    {name:{ar:"L5-S1",en:"L5-S1",fr:"L5-S1"}, view:{ar:"جانبي موضعي",en:"Lateral spot",fr:"Profil centré"}, kv:95, ma:200, ms:400, sid:{ar:"100 سم",en:"100 cm",fr:"100 cm"}, grid:true},
+    {name:{ar:"العجز والعصعص",en:"Sacrum & coccyx",fr:"Sacrum et coccyx"}, view:{ar:"أمامي خلفي (AP)",en:"AP",fr:"AP"}, kv:80, ma:200, ms:225, sid:{ar:"100 سم",en:"100 cm",fr:"100 cm"}, grid:true}
+  ],
+  abdomen: [
+    {name:{ar:"البطن (KUB)",en:"Abdomen (KUB)",fr:"Abdomen (ASP)"}, view:{ar:"أمامي خلفي مستلقٍ",en:"Supine AP",fr:"AP en décubitus"}, kv:75, ma:200, ms:200, sid:{ar:"100 سم",en:"100 cm",fr:"100 cm"}, grid:true},
+    {name:{ar:"البطن",en:"Abdomen",fr:"Abdomen"}, view:{ar:"واقف (نُظم هوائية)",en:"Erect (air-fluid levels)",fr:"Debout (niveaux hydro-aériques)"}, kv:75, ma:200, ms:160, sid:{ar:"100 سم",en:"100 cm",fr:"100 cm"}, grid:true},
+    {name:{ar:"الحوض",en:"Pelvis",fr:"Bassin"}, view:{ar:"أمامي خلفي (AP)",en:"AP",fr:"AP"}, kv:75, ma:200, ms:175, sid:{ar:"100 سم",en:"100 cm",fr:"100 cm"}, grid:true},
+    {name:{ar:"مفصل الورك",en:"Hip",fr:"Hanche"}, view:{ar:"أمامي خلفي",en:"AP",fr:"AP"}, kv:75, ma:200, ms:175, sid:{ar:"100 سم",en:"100 cm",fr:"100 cm"}, grid:true},
+    {name:{ar:"مفصل الورك",en:"Hip",fr:"Hanche"}, view:{ar:"جانبي محوري (Frog-leg)",en:"Frog-leg lateral",fr:"Profil en grenouille"}, kv:75, ma:200, ms:200, sid:{ar:"100 سم",en:"100 cm",fr:"100 cm"}, grid:true}
+  ],
+  upper: [
+    {name:{ar:"الكتف",en:"Shoulder",fr:"Épaule"}, view:{ar:"أمامي خلفي",en:"AP",fr:"AP"}, kv:70, ma:200, ms:60, sid:{ar:"100 سم",en:"100 cm",fr:"100 cm"}, grid:true},
+    {name:{ar:"لوح الكتف",en:"Scapula",fr:"Omoplate"}, view:{ar:"أمامي خلفي",en:"AP",fr:"AP"}, kv:75, ma:200, ms:130, sid:{ar:"100 سم",en:"100 cm",fr:"100 cm"}, grid:true},
+    {name:{ar:"عظم العضد",en:"Humerus",fr:"Humérus"}, view:{ar:"أمامي خلفي / جانبي",en:"AP / lateral",fr:"AP / profil"}, kv:65, ma:100, ms:80, sid:{ar:"100 سم",en:"100 cm",fr:"100 cm"}, grid:false},
+    {name:{ar:"مفصل المرفق",en:"Elbow",fr:"Coude"}, view:{ar:"أمامي خلفي / جانبي",en:"AP / lateral",fr:"AP / profil"}, kv:60, ma:100, ms:60, sid:{ar:"100 سم",en:"100 cm",fr:"100 cm"}, grid:false},
+    {name:{ar:"الساعد",en:"Forearm",fr:"Avant-bras"}, view:{ar:"أمامي خلفي / جانبي",en:"AP / lateral",fr:"AP / profil"}, kv:60, ma:100, ms:50, sid:{ar:"100 سم",en:"100 cm",fr:"100 cm"}, grid:false},
+    {name:{ar:"الرسغ",en:"Wrist",fr:"Poignet"}, view:{ar:"أمامي خلفي / جانبي",en:"AP / lateral",fr:"AP / profil"}, kv:55, ma:100, ms:40, sid:{ar:"100 سم",en:"100 cm",fr:"100 cm"}, grid:false},
+    {name:{ar:"الكف",en:"Hand",fr:"Main"}, view:{ar:"أمامي خلفي / مائل",en:"PA / oblique",fr:"PA / oblique"}, kv:55, ma:100, ms:30, sid:{ar:"100 سم",en:"100 cm",fr:"100 cm"}, grid:false},
+    {name:{ar:"الأصابع",en:"Fingers",fr:"Doigts"}, view:{ar:"أمامي خلفي / جانبي",en:"PA / lateral",fr:"PA / profil"}, kv:50, ma:100, ms:20, sid:{ar:"75 سم",en:"75 cm",fr:"75 cm"}, grid:false}
+  ],
+  lower: [
+    {name:{ar:"عظم الفخذ",en:"Femur",fr:"Fémur"}, view:{ar:"أمامي خلفي / جانبي",en:"AP / lateral",fr:"AP / profil"}, kv:70, ma:200, ms:100, sid:{ar:"100 سم",en:"100 cm",fr:"100 cm"}, grid:true},
+    {name:{ar:"مفصل الركبة",en:"Knee",fr:"Genou"}, view:{ar:"أمامي خلفي / جانبي",en:"AP / lateral",fr:"AP / profil"}, kv:65, ma:100, ms:80, sid:{ar:"100 سم",en:"100 cm",fr:"100 cm"}, grid:false},
+    {name:{ar:"الرضفة",en:"Patella",fr:"Rotule"}, view:{ar:"جانبي / محوري",en:"Lateral / axial",fr:"Profil / axial"}, kv:60, ma:100, ms:60, sid:{ar:"100 سم",en:"100 cm",fr:"100 cm"}, grid:false},
+    {name:{ar:"الساق",en:"Tibia-Fibula",fr:"Jambe (tibia-péroné)"}, view:{ar:"أمامي خلفي / جانبي",en:"AP / lateral",fr:"AP / profil"}, kv:65, ma:100, ms:60, sid:{ar:"100 سم",en:"100 cm",fr:"100 cm"}, grid:false},
+    {name:{ar:"مفصل الكاحل",en:"Ankle",fr:"Cheville"}, view:{ar:"أمامي خلفي / جانبي",en:"AP / lateral",fr:"AP / profil"}, kv:60, ma:100, ms:50, sid:{ar:"100 سم",en:"100 cm",fr:"100 cm"}, grid:false},
+    {name:{ar:"القدم",en:"Foot",fr:"Pied"}, view:{ar:"أمامي خلفي / مائل",en:"AP / oblique",fr:"AP / oblique"}, kv:55, ma:100, ms:40, sid:{ar:"100 سم",en:"100 cm",fr:"100 cm"}, grid:false},
+    {name:{ar:"عظم الكعب",en:"Calcaneus",fr:"Calcanéus"}, view:{ar:"جانبي / محوري",en:"Lateral / axial",fr:"Profil / axial"}, kv:65, ma:100, ms:100, sid:{ar:"100 سم",en:"100 cm",fr:"100 cm"}, grid:false},
+    {name:{ar:"أصابع القدم",en:"Toes",fr:"Orteils"}, view:{ar:"أمامي خلفي / مائل",en:"AP / oblique",fr:"AP / oblique"}, kv:50, ma:100, ms:20, sid:{ar:"75 سم",en:"75 cm",fr:"75 cm"}, grid:false}
+  ]
+};
+
+/* ---------------- STATE ---------------- */
+let lang = "ar";
+let currentRegion = REGIONS[0];
+let searchTerm = "";
+
+const htmlRoot = document.getElementById('htmlRoot');
+const nav = document.getElementById('regionNav');
+const tbody = document.getElementById('tableBody');
+const regionTitle = document.getElementById('regionTitle');
+const regionNote = document.getElementById('regionNote');
+const emptyState = document.getElementById('emptyState');
+const searchInput = document.getElementById('search');
+
+function buildNav(){
+  nav.querySelectorAll('.region-btn').forEach(b=>b.remove());
+  REGIONS.forEach(key => {
+    const btn = document.createElement('button');
+    btn.className = 'region-btn';
+    btn.dataset.region = key;
+    btn.innerHTML = `<span class="rname">${REGION_LABEL[key][lang]}</span><span class="count">${EXAMS[key].length}</span>`;
+    btn.addEventListener('click', () => {
+      currentRegion = key;
+      searchTerm = "";
+      searchInput.value = "";
+      render();
+    });
+    nav.appendChild(btn);
+  });
+}
+
+function applyLangUI(){
+  const t = UI[lang];
+  htmlRoot.setAttribute('lang', lang);
+  htmlRoot.setAttribute('dir', t.dir);
+  document.title = t.pageTitle;
+  document.getElementById('pageTitle').textContent = t.pageTitle;
+  document.getElementById('pageSubtitle').textContent = t.pageSubtitle;
+  document.getElementById('navLabel').textContent = t.navLabel;
+  document.getElementById('thExam').textContent = t.thExam;
+  document.getElementById('thSid').textContent = t.thSid;
+  searchInput.placeholder = t.searchPlaceholder;
+  document.getElementById('disclaimer').textContent = t.disclaimer;
+  document.querySelectorAll('.lang-switch button').forEach(b=>{
+    b.classList.toggle('active', b.dataset.lang === lang);
+  });
+}
+
+function render(){
+  const t = UI[lang];
+  document.querySelectorAll('.region-btn').forEach(b=>{
+    b.classList.toggle('active', b.dataset.region === currentRegion && searchTerm === "");
+  });
+
+  let rows = [];
+  if(searchTerm.trim() !== ""){
+    regionTitle.textContent = t.searchResults;
+    regionNote.textContent = t.searchFor(searchTerm);
+    REGIONS.forEach(key=>{
+      EXAMS[key].forEach(exam=>{
+        const hay = (exam.name[lang] + " " + exam.view[lang] + " " + REGION_LABEL[key][lang]).toLowerCase();
+        if(hay.includes(searchTerm.toLowerCase())){
+          rows.push(exam);
+        }
+      });
+    });
+  } else {
+    regionTitle.textContent = REGION_LABEL[currentRegion][lang];
+    regionNote.textContent = REGION_NOTE[currentRegion][lang];
+    rows = EXAMS[currentRegion];
+  }
+
+  tbody.innerHTML = "";
+  emptyState.style.display = rows.length ? 'none' : 'block';
+  emptyState.textContent = t.empty;
+
+  rows.forEach(exam=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>
+        <span class="exam-name">${exam.name[lang]}</span>
+        <span class="exam-view">${exam.grid ? `<span class="grid-tag">${t.grid}</span>` : ''}${exam.view[lang]}</span>
+      </td>
+      <td class="numeric" data-label="kVp"><span class="val kv">${exam.kv}</span></td>
+      <td class="numeric" data-label="mA"><span class="val">${exam.ma}</span></td>
+      <td class="numeric" data-label="msec"><span class="val ms">${exam.ms}</span></td>
+      <td class="sid" data-label="${t.thSid}">${exam.sid[lang]}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function setLang(newLang){
+  lang = newLang;
+  applyLangUI();
+  buildNav();
+  render();
+}
+
+document.querySelectorAll('.lang-switch button').forEach(b=>{
+  b.addEventListener('click', ()=> setLang(b.dataset.lang));
+});
+
+searchInput.addEventListener('input', (e)=>{
+  searchTerm = e.target.value;
+  render();
+});
+
+setLang('ar');
+</script>
+</body>
+</html>
